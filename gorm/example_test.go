@@ -48,11 +48,13 @@ func ExampleNewService() {
 	var mysqlService = mysql.NewService("mysql", configService)
 	var gormService = gorm.NewService("gorm", configService, mysqlService)
 	var container = service.NewContainer()
+	defer container.Close()
 	var gormDB, err = gormService.Get(container)
 	if err != nil {
 		panic(err)
 	}
-	defer gormDB.Close()
+	// no need to use gormDB.Close(), because the mysqlService will be closed at container.Close()
+
 	type User struct {
 		ID int
 	}

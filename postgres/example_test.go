@@ -37,10 +37,12 @@ func ExampleNewService() {
 	var configService = cfg.NewService(cfg.NewMemoryStorageService(config))
 	var postgresService = postgres.NewService("postgres", configService)
 	var container = service.NewContainer()
+	defer container.Close()
 	var db, err = postgresService.Get(container)
 	if err != nil {
 		panic(err)
 	}
-	defer db.Close()
+	// db.Close() will be triggered at container.Close()
+
 	db.Query("select * from user where id=?;", 1)
 }
