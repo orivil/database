@@ -45,6 +45,7 @@ func (s *Service) New(ctn *service.Container) (value interface{}, err error) {
 		if err != nil {
 			return nil, err
 		} else {
+			// no need to close, because db will closed by container.Close function
 			return gDB, nil
 		}
 	}

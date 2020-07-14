@@ -38,9 +38,7 @@ func (s *Service) New(ctn *service.Container) (value interface{}, err error) {
 	if er != nil {
 		panic(er)
 	}
-	ctn.OnClose(func() error {
-		return db.Close()
-	})
+	ctn.OnClose(db.Close)
 	return db, nil
 }
 
